@@ -46,7 +46,9 @@ def generate_btc_addresses(hexclue, num_results, progress_bar, target_address=No
 def save_to_file(address, hex_address):
     os.makedirs('hexclue', exist_ok=True)
     filename = f"hexclue/{address}.txt"
-    with open(filename, mode='w') as file:
+    
+    # Open the file in append mode ('a') so it doesn't overwrite the existing content
+    with open(filename, mode='a') as file:
         file.write(f"Address: {address}\nHex: {hex_address}\n")
 
 def save_buffer_to_csv(buffer):
@@ -54,8 +56,16 @@ def save_buffer_to_csv(buffer):
     timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
     csv_filename = f"hexclue/results_{timestamp}.csv"
     
+    # Open the file in append mode ('a') so it doesn't overwrite the existing content
     with open(csv_filename, mode='a', newline='') as file:
         csv_writer = csv.writer(file)
+        
+        # Check if the file is empty (for adding headers to the file if it's new)
+        file.seek(0, os.SEEK_END)
+        if file.tell() == 0:
+            # If the file is empty, write the header row
+            csv_writer.writerow(['Address', 'Hex Address'])
+        
         csv_writer.writerows(buffer)
 
 def calculate_possible_results(hexclue):
