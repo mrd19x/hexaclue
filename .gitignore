@@ -2,3 +2,6 @@ env/
 /env/
 hexclue/*
 /hexclue/
+logs.txt
+*.bat
+*.csv
