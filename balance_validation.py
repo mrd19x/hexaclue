@@ -31,11 +31,12 @@ def process_file(file_path):
     print(f"Processing file: {file_path}")
     found_addresses = []
     
-    # Baca file CSV
+    # Baca file CSV, selalu skip baris pertama
     with open(file_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file)
-        rows = list(reader)  # Membaca semua baris setelah header
-    
+        reader = csv.reader(csv_file)
+        next(reader, None)  # Melewati baris pertama secara eksplisit
+        rows = [{"Address": row[0], "Hex Address": row[1]} for row in reader]
+
     # Ambil hanya alamat dari setiap baris
     addresses = [row['Address'] for row in rows]
 
